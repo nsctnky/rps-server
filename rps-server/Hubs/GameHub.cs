@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 
 namespace rps_server.Hubs;
 
@@ -29,16 +30,23 @@ public class GameHub : Hub
     }
 
     [HubMethodName("auth")]
-    public async Task OnAuth()
+    public async Task OnAuth(string name, string id)
     {
-        await Clients.Caller.SendAsync(MessageReceived, "");
+        _logging.Info($"{Context.ConnectionId}, name: {name}, id: {id}");
+        var jsonDict = new Dictionary<string, object>
+        {
+            {"command", "auth"},
+            {"error", 0}
+        };
+        var json = JsonConvert.SerializeObject(jsonDict);
+        await Clients.Caller.SendAsync(MessageReceived, json);
     }
 
     [HubMethodName("matchMake")]
     public async Task OnMatchMake()
     {
         var randomPlayer = _gameRepository.GetRandomPlayer(Context.ConnectionId);
-
+        
         await randomPlayer.Caller.SendAsync(MessageReceived, "");
         await Clients.Caller.SendAsync(MessageReceived, "");
     }
