@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
+using rps_server.Repository;
+using rps_server.Response.Auth;
+using rps_server.Response.MatchMake;
+using rps_server.Response.Model;
+using ILogger = rps_server.Logger.ILogger;
 
 namespace rps_server.Hubs;
 
@@ -7,9 +11,9 @@ public class GameHub : Hub
 {
     private const string MessageReceived = "MessageReceived";
     private readonly IGameRepository _gameRepository;
-    private readonly ILogging _logging;
+    private readonly ILogger _logging;
 
-    public GameHub(IGameRepository gameRepository, ILogging logging)
+    public GameHub(IGameRepository gameRepository, ILogger logging)
     {
         _gameRepository = gameRepository;
         _logging = logging;
@@ -33,75 +37,15 @@ public class GameHub : Hub
     public async Task OnAuth(string name, string id)
     {
         _logging.Info($"{Context.ConnectionId}, name: {name}, id: {id}");
-        var jsonDict = new Dictionary<string, object>
-        {
-            {"command", "auth"},
-            {"error", 0}
-        };
-        var json = JsonConvert.SerializeObject(jsonDict);
-        await Clients.Caller.SendAsync(MessageReceived, json);
+        IAuthResponse auth = new AuthResponse( 0, name, id);
+        await Clients.Caller.SendAsync(MessageReceived, auth.ToJson());
     }
 
     [HubMethodName("matchMake")]
-    public async Task OnMatchMake()
+    public async Task OnMatchMake(int gameType)
     {
-        var randomPlayer = _gameRepository.GetRandomPlayer(Context.ConnectionId);
-        
-        await randomPlayer.Caller.SendAsync(MessageReceived, "");
-        await Clients.Caller.SendAsync(MessageReceived, "");
-    }
-}
-
-public interface IGameRepository
-{
-    void AddConnected(HubCallerContext context, IHubCallerClients clients);
-    void RemoveConnected(HubCallerContext context);
-    IHubCallerClients GetRandomPlayer(string except);
-}
-
-public class GameRepository : IGameRepository
-{
-    private readonly ILogging _logging;
-    private readonly Dictionary<HubCallerContext, IHubCallerClients> _idlePlayers = new Dictionary<HubCallerContext, IHubCallerClients>();
-
-    public GameRepository(ILogging logging)
-    {
-        _logging = logging;
-    }
-
-    public void AddConnected(HubCallerContext context, IHubCallerClients clients)
-    {
-        _idlePlayers.Add(context, clients);
-        _logging.Info($"add: {context.ConnectionId}");
-    }
-
-    public void RemoveConnected(HubCallerContext context)
-    {
-        _idlePlayers.Remove(context);
-        _logging.Info($"remove: {context.ConnectionId}");
-    }
-
-    public IHubCallerClients GetRandomPlayer(string except)
-    {
-        foreach (var t in _idlePlayers)
-        {
-            if (t.Key.ConnectionId != except)
-                return t.Value;
-        }
-
-        return null;
-    }
-}
-
-public interface ILogging
-{
-    void Info(string msg);
-}
-
-public class DummyLogger : ILogging
-{
-    public void Info(string msg)
-    {
-        Console.WriteLine($"| INFO | {msg}");
+        var players = new List<IPlayer> { new Player("enes", "asd"), new Player("bot1", "bot1") };
+        IMatchMakeResponse matchMake = new MatchMakeResponse(0, players);
+        await Clients.Caller.SendAsync(MessageReceived, matchMake.ToJson());
     }
 }
