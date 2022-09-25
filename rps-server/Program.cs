@@ -8,6 +8,7 @@ var logging = new DummyLogger();
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
 
+builder.Services.AddSingleton<IClientRepository>(new ClientRepository(logging));
 builder.Services.AddSingleton<IGameRepository>(new GameRepository(logging));
 builder.Services.AddSingleton<ILogger>(logging);
 
@@ -15,5 +16,4 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 app.MapHub<GameHub>("/signalr");
-
 app.Run();

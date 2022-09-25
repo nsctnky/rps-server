@@ -1,20 +1,20 @@
 ﻿using Newtonsoft.Json;
 
-namespace rps_server.Response.Auth;
+namespace rps_server.Response.Move;
 
-public class AuthResponse : IAuthResponse
+public class MoveResponse : IMoveResponse
 {
     public string Command { get; }
     public int Error { get; }
-    public string Name { get; }
     public string UserId { get; }
+    public int Movement { get; }
 
-    public AuthResponse(int error, string name, string userId)
+    public MoveResponse(string command, int error, string userId, int movement)
     {
-        Command = "auth";
+        Command = command;
         Error = error;
-        Name = name;
         UserId = userId;
+        Movement = movement;
     }
 
     public string ToJson()

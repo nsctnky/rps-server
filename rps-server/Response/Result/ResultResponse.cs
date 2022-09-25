@@ -1,20 +1,20 @@
 ﻿using Newtonsoft.Json;
 using rps_server.Response.Model;
 
-namespace rps_server.Response.MatchMake;
+namespace rps_server.Response.Result;
 
-public class MatchMakeResponse : IMatchMakeResponse
+public class ResultResponse : IResultResponse
 {
     public string Command { get; }
     public int Error { get; }
-    public string GameId { get; }
+    public int GameResult { get; }
     public List<IPlayer> Players { get; }
 
-    public MatchMakeResponse(int error, string gameId, IEnumerable<IPlayer> players)
+    public ResultResponse(int error, int gameResult, IEnumerable<IPlayer> players)
     {
-        Command = "matchMake";
+        Command = "result";
         Error = error;
-        GameId = gameId;
+        GameResult = gameResult;
         Players = new List<IPlayer>();
         Players.AddRange(players);
     }

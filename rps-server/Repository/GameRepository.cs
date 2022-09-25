@@ -1,38 +1,32 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using ILogger = rps_server.Logger.ILogger;
+﻿using ILogger = rps_server.Logger.ILogger;
 
 namespace rps_server.Repository;
 
 public class GameRepository : IGameRepository
 {
+    private Dictionary<string, IGame> _allGames = new Dictionary<string, IGame>();
+
     private readonly ILogger _logger;
-    private readonly Dictionary<HubCallerContext, IHubCallerClients> _idlePlayers = new Dictionary<HubCallerContext, IHubCallerClients>();
 
     public GameRepository(ILogger logger)
     {
         _logger = logger;
     }
 
-    public void AddConnected(HubCallerContext context, IHubCallerClients clients)
+    public void AddGame(string gameId, IGame game)
     {
-        _idlePlayers.Add(context, clients);
-        _logger.Info($"add: {context.ConnectionId}");
+        _allGames.Add(gameId, game);    
     }
 
-    public void RemoveConnected(HubCallerContext context)
+    public bool TryGetGameById(string gameId, out IGame? game)
     {
-        _idlePlayers.Remove(context);
-        _logger.Info($"remove: {context.ConnectionId}");
-    }
-
-    public IHubCallerClients GetRandomPlayer(string except)
-    {
-        foreach (var t in _idlePlayers)
+        if (!_allGames.TryGetValue(gameId, out IGame? value))
         {
-            if (t.Key.ConnectionId != except)
-                return t.Value;
+            game = null;
+            return false;
         }
 
-        return null;
+        game = value;
+        return true;
     }
 }
