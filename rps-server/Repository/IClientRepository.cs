@@ -4,9 +4,9 @@ namespace rps_server.Repository;
 
 public interface IClientRepository
 {
-    void AddConnected(HubCallerContext context, IHubCallerClients clients);
-    void RemoveConnected(HubCallerContext context);
-    IClientProxy GetRandomPlayer(string except);
-    IHubCallerClients GetClients(HubCallerContext context);
-    IClientProxy GetCaller(HubCallerContext context);
+    void AddClient(string connectionId, string uid, IClientProxy caller);
+    void RemoveClientByUid(string uid);
+    void RemoveClientByConnId(string connectionId);
+    Model.IClient GetClientByUid(string uid);
+    Model.IClient GetClientByConnId(string connectionId);
 }

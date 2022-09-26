@@ -6,53 +6,45 @@ namespace rps_server.Repository;
 public class ClientRepository : IClientRepository
 {
     private readonly ILogger _logger;
-    private readonly Dictionary<HubCallerContext, IClient> _idlePlayers = new Dictionary<HubCallerContext, IClient>();
+    private readonly Dictionary<string, Model.IClient> _allClientsByUid = new();
+    private readonly Dictionary<string, Model.IClient> _allClientsByConnId = new();
 
     public ClientRepository(ILogger logger)
     {
         _logger = logger;
     }
 
-    public void AddConnected(HubCallerContext context, IHubCallerClients clients)
+    public void AddClient(string connectionId, string uid, IClientProxy caller)
     {
-        _idlePlayers.Add(context, new Client(context, clients, clients.Caller));
-        _logger.Info($"add: {context.ConnectionId}");
+        _allClientsByUid.Add(uid, new Model.Client(connectionId, uid, caller));
+        _allClientsByConnId.Add(connectionId, new Model.Client(connectionId, uid, caller));
     }
 
-    public void RemoveConnected(HubCallerContext context)
+    public void RemoveClientByUid(string uid)
     {
-        _idlePlayers.Remove(context);
-        _logger.Info($"remove: {context.ConnectionId}");
+        if(!_allClientsByUid.TryGetValue(uid, out Model.IClient client))
+            return;
+
+        _allClientsByUid.Remove(client.UserId);
+        _allClientsByConnId.Remove(client.ConnectionId);
     }
 
-    public IClientProxy GetRandomPlayer(string except)
+    public void RemoveClientByConnId(string connectionId)
     {
-        foreach (var t in _idlePlayers)
-        {
-            if (t.Key.ConnectionId != except)
-                return t.Value.Caller;
-        }
+        if(!_allClientsByConnId.TryGetValue(connectionId, out Model.IClient client))
+            return;
 
-        return null;
+        _allClientsByUid.Remove(client.UserId);
+        _allClientsByConnId.Remove(client.ConnectionId);
     }
 
-    public IHubCallerClients GetClients(HubCallerContext context)
+    public Model.IClient GetClientByUid(string uid)
     {
-        if (!_idlePlayers.TryGetValue(context, out IClient client))
-        {
-            return null;
-        }
-
-        return client.Clients;
+        return _allClientsByUid[uid];
     }
 
-    public IClientProxy GetCaller(HubCallerContext context)
+    public Model.IClient GetClientByConnId(string connectionId)
     {
-        if (!_idlePlayers.TryGetValue(context, out IClient client))
-        {
-            return null;
-        }
-
-        return client.Caller;
+        return _allClientsByConnId[connectionId];
     }
 }
