@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using ILogger = rps_server.Logger.ILogger;
+using rps_server.Core.Model;
+using ILogger = rps_server.Core.Logger.ILogger;
 
-namespace rps_server.Repository;
+namespace rps_server.Repository.Client;
 
 public class ClientRepository : IClientRepository
 {
     private readonly ILogger _logger;
-    private readonly Dictionary<string, Model.IClient> _allClientsByUid = new();
-    private readonly Dictionary<string, Model.IClient> _allClientsByConnId = new();
+    private readonly Dictionary<string, IClient> _allClientsByUid = new();
+    private readonly Dictionary<string, IClient> _allClientsByConnId = new();
 
     public ClientRepository(ILogger logger)
     {
@@ -16,13 +17,13 @@ public class ClientRepository : IClientRepository
 
     public void AddClient(string connectionId, string uid, IClientProxy caller)
     {
-        _allClientsByUid.Add(uid, new Model.Client(connectionId, uid, caller));
-        _allClientsByConnId.Add(connectionId, new Model.Client(connectionId, uid, caller));
+        _allClientsByUid.Add(uid, new Core.Model.Client(connectionId, uid, caller));
+        _allClientsByConnId.Add(connectionId, new Core.Model.Client(connectionId, uid, caller));
     }
 
     public void RemoveClientByUid(string uid)
     {
-        if(!_allClientsByUid.TryGetValue(uid, out Model.IClient client))
+        if(!_allClientsByUid.TryGetValue(uid, out IClient client))
             return;
 
         _allClientsByUid.Remove(client.UserId);
@@ -31,19 +32,19 @@ public class ClientRepository : IClientRepository
 
     public void RemoveClientByConnId(string connectionId)
     {
-        if(!_allClientsByConnId.TryGetValue(connectionId, out Model.IClient client))
+        if(!_allClientsByConnId.TryGetValue(connectionId, out IClient client))
             return;
 
         _allClientsByUid.Remove(client.UserId);
         _allClientsByConnId.Remove(client.ConnectionId);
     }
 
-    public Model.IClient GetClientByUid(string uid)
+    public IClient GetClientByUid(string uid)
     {
         return _allClientsByUid[uid];
     }
 
-    public Model.IClient GetClientByConnId(string connectionId)
+    public IClient GetClientByConnId(string connectionId)
     {
         return _allClientsByConnId[connectionId];
     }

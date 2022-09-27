@@ -1,4 +1,6 @@
-﻿namespace rps_server.Repository;
+﻿using rps_server.Core.Utils.Constants;
+
+namespace rps_server.Core.Utils;
 
 public class ResultCalculator : IResultCalculator
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace rps_server.Model;
+namespace rps_server.Core.Model;
 
 public interface IClient
 {

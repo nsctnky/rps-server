@@ -8,7 +8,7 @@ using rps_server.Services.Client;
 using rps_server.Services.Game;
 using rps_server.Services.MatchMake;
 using rps_server.Services.Move;
-using ILogger = rps_server.Logger.ILogger;
+using ILogger = rps_server.Core.Logger.ILogger;
 
 namespace rps_server.Hubs;
 

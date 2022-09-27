@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using rps_server.Repository;
-using ILogger = rps_server.Logger.ILogger;
+using rps_server.Repository.Client;
+using ILogger = rps_server.Core.Logger.ILogger;
 
 namespace rps_server.Services.Client;
 

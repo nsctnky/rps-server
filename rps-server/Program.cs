@@ -1,7 +1,9 @@
+using rps_server.Core.Logger;
 using rps_server.Hubs;
-using rps_server.Logger;
 using rps_server.Repository;
-using ILogger = rps_server.Logger.ILogger;
+using rps_server.Repository.Client;
+using rps_server.Repository.Game;
+using ILogger = rps_server.Core.Logger.ILogger;
 
 var logging = new DummyLogger();
 

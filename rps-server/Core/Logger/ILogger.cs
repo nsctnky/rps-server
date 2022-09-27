@@ -1,4 +1,4 @@
-﻿namespace rps_server.Logger;
+﻿namespace rps_server.Core.Logger;
 
 public interface ILogger
 {

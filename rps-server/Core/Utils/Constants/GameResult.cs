@@ -1,4 +1,4 @@
-﻿namespace rps_server.Repository;
+﻿namespace rps_server.Core.Utils.Constants;
 
 public enum GameResult
 {
