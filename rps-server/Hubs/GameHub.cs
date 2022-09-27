@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using rps_server.Response.Auth;
 using rps_server.Response.MatchMake;
-using rps_server.Response.Model;
+using rps_server.Response.Move;
 using rps_server.Response.Result;
 using rps_server.Services.Auth;
 using rps_server.Services.Client;
+using rps_server.Services.Game;
 using rps_server.Services.MatchMake;
+using rps_server.Services.Move;
 using ILogger = rps_server.Logger.ILogger;
 
 namespace rps_server.Hubs;
@@ -18,13 +20,18 @@ public class GameHub : Hub
     private readonly IAuthService _authService;
     private readonly IClientService _clientService;
     private readonly IMatchMakeService _matchMakeService;
+    private readonly IMoveService _moveService;
+    private readonly IGameService _gameService;
     
-    public GameHub(IAuthService authService, IClientService clientService, IMatchMakeService matchMakeService, ILogger logging)
+    public GameHub(IAuthService authService, IClientService clientService, IMoveService moveService, 
+        IMatchMakeService matchMakeService, IGameService gameService, ILogger logging)
     {
         _logging = logging;
         _authService = authService;
         _clientService = clientService;
         _matchMakeService = matchMakeService;
+        _moveService = moveService;
+        _gameService = gameService;
     }
 
     public override Task OnConnectedAsync()
@@ -43,7 +50,6 @@ public class GameHub : Hub
     [HubMethodName("auth")]
     public async Task OnAuth(string name, string id)
     {
-        // add client to onlines.
         _clientService.AddClient(Context.ConnectionId, id, Clients.Caller);
         
         // do auth stuff
@@ -62,17 +68,13 @@ public class GameHub : Hub
     [HubMethodName("move")]
     public async Task OnMove(string gameId, int move)
     {
-        // try add player movement to current game
-        await Clients.Caller.SendAsync(MessageReceived, "success");
+        IMoveResponse moveResponse = _moveService.GetMoveResponse(gameId, move, Context.ConnectionId);
+        await Clients.Caller.SendAsync(MessageReceived, moveResponse.ToJson());
 
-        // check game state, if it's finished, send game result
-        var players = new List<IPlayerResult>
-        {
-            new PlayerResult("enes", "asd", 1),
-            new PlayerResult("bot1", "bot1", 0)
-        };
-            
-        var result = new ResultResponse(0, 1, players);
-        await Clients.Caller.SendAsync(MessageReceived, result.ToJson());
+        if(!_gameService.IsGameFinished())
+            return;
+        
+        IResultResponse resultResponse = _gameService.GetResultResponse();
+        await Clients.Caller.SendAsync(MessageReceived, resultResponse.ToJson());
     }
 }
