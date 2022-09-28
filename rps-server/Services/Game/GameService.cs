@@ -2,8 +2,9 @@
 using rps_server.Core.Model;
 using rps_server.Core.Utils;
 using rps_server.Core.Utils.Constants;
-using rps_server.Repository;
-using rps_server.Response.Result;
+using rps_server.DTO.Response.Result;
+using rps_server.Repository.Game;
+using ILogger = rps_server.Core.Logger.ILogger;
 
 namespace rps_server.Services.Game;
 
@@ -21,30 +22,26 @@ public class GameService : IGameService
             new PlayerResult("enes", "asd", 1),
             new PlayerResult("bot1", "bot1", 0)
         };
-            
-        
+
         return new ResultResponse(0, 1, players);
     }
-    
+
     private ITwoKeyDictionary<string, string, IClient> _allPlayers = new TwoKeyDictionary();
     private Dictionary<string, MoveType> _playersMove = new();
 
     public bool IsFinished
     {
-        get
-        {
-            return _playersMove.Count == 2;
-        }
+        get { return _playersMove.Count == 2; }
     }
 
-    public string GameId { get; }
+    public string GameId { get; private set; }
     private IResultCalculator _resultCalculator;
-    
+
     public void SetMovement(string uid, MoveType movement)
     {
-        if(_playersMove.ContainsKey(uid))
+        if (_playersMove.ContainsKey(uid))
             return;
-        
+
         _playersMove.Add(uid, movement);
     }
 
@@ -56,12 +53,17 @@ public class GameService : IGameService
 
         _allPlayers.TryGetByKey1(p1.Key, out var p1Data);
         _allPlayers.TryGetByKey1(p2.Key, out var p2Data);
-        
+
         return new Dictionary<IClientProxy, GameResult>
         {
-            {p1Data.Caller, p1Res},
-            {p2Data.Caller, p2Res}
+            { p1Data.Caller, p1Res },
+            { p2Data.Caller, p2Res }
         };
+    }
+
+    public GameService(ILogger logger, IGameRepository gameRepository)
+    {
+        _resultCalculator = new ResultCalculator();
     }
 
     public GameService(string gameId, string player1Id, IClient client1, string player2Id, IClient client2)

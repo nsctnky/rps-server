@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using rps_server.Repository;
 using rps_server.Repository.Client;
 using ILogger = rps_server.Core.Logger.ILogger;
 
@@ -9,7 +8,7 @@ public class ClientService : IClientService
 {
     private readonly IClientRepository _clientRepository;
     private readonly ILogger _logger;
-    
+
     public ClientService(ILogger logger, IClientRepository clientRepository)
     {
         _clientRepository = clientRepository;

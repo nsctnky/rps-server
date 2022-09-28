@@ -23,7 +23,7 @@ public class ClientRepository : IClientRepository
 
     public void RemoveClientByUid(string uid)
     {
-        if(!_allClientsByUid.TryGetValue(uid, out IClient client))
+        if (!_allClientsByUid.TryGetValue(uid, out IClient client))
             return;
 
         _allClientsByUid.Remove(client.UserId);
@@ -32,7 +32,7 @@ public class ClientRepository : IClientRepository
 
     public void RemoveClientByConnId(string connectionId)
     {
-        if(!_allClientsByConnId.TryGetValue(connectionId, out IClient client))
+        if (!_allClientsByConnId.TryGetValue(connectionId, out IClient client))
             return;
 
         _allClientsByUid.Remove(client.UserId);

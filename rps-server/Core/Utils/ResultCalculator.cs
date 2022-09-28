@@ -13,7 +13,7 @@ public class ResultCalculator : IResultCalculator
             p1Result = GameResult.Lost;
             p2Result = GameResult.Win;
         }
-        else if(res == 0)
+        else if (res == 0)
         {
             p1Result = GameResult.Draw;
             p2Result = GameResult.Draw;

@@ -16,7 +16,7 @@ public class GameRepository : IGameRepository
 
     public void AddGame(string gameId, IGameService game)
     {
-        _allGames.Add(gameId, game);    
+        _allGames.Add(gameId, game);
     }
 
     public bool TryGetGameById(string gameId, out IGameService? game)

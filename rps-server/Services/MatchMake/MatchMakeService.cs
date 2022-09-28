@@ -1,5 +1,5 @@
-﻿using rps_server.Response.MatchMake;
-using rps_server.Response.Model;
+﻿using rps_server.DTO.Response.MatchMake;
+using rps_server.DTO.Response.Model;
 
 namespace rps_server.Services.MatchMake;
 

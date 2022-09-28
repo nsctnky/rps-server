@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using rps_server.Core.Model;
+using rps_server.Core.ServiceLocator;
 using rps_server.Core.Utils.Constants;
-using rps_server.Repository;
-using rps_server.Response.Result;
+using rps_server.DTO.Response.Result;
 
 namespace rps_server.Services.Game;
 
-public interface IGameService
+public interface IGameService : IService
 {
     bool IsGameFinished();
     ResultResponse GetResultResponse();
