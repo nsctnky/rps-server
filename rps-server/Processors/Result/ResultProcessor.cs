@@ -6,7 +6,7 @@ namespace rps_server.Processors.Result;
 
 public class ResultProcessor : IResultProcessor
 {
-    public IResultResponse Process(IResultRequest data)
+    public IResultResponse Process(HubCallerContext context, IClientProxy caller, IResultRequest data)
     {
         return new ResultResponse(0, 0, new List<IPlayerResult>());
     }

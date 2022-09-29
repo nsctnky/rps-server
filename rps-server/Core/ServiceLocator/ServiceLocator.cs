@@ -2,7 +2,7 @@
 
 public class ServiceLocator : IServiceLocator
 {
-    public void Get<T>() where T : IService
+    public T Get<T>() where T : IService
     {
         throw new NotImplementedException();
     }

@@ -2,12 +2,12 @@
 
 public class AuthRequest : IAuthRequest
 {
-    public string Name { get; set; }
-    public string Id { get; set; }
+    public string Name { get; }
+    public string UserId { get; }
 
     public AuthRequest(string name, string id)
     {
         Name = name;
-        Id = id;
+        UserId = id;
     }
 }

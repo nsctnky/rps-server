@@ -2,6 +2,6 @@
 
 public interface IServiceLocator
 {
-    void Get<T>() where T : IService;
+    T Get<T>() where T : IService;
     void Add<T>(T service) where T : IService;
 }

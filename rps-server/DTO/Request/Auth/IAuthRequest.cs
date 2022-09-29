@@ -2,4 +2,6 @@
 
 public interface IAuthRequest : IRequest
 {
+    string Name { get; }
+    string UserId { get; }
 }

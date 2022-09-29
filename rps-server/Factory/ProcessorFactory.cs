@@ -2,13 +2,14 @@
 using rps_server.Factory.Builder;
 using rps_server.Processors;
 using rps_server.Processors.Auth;
+using rps_server.Services.Client;
 
 namespace rps_server.Factory;
 
 public class ProcessorFactory : IProcessorFactory
 {
     private readonly IServiceLocator _serviceLocator;
-
+    
     public ProcessorFactory(IServiceLocator serviceLocator)
     {
         _serviceLocator = serviceLocator;
@@ -26,6 +27,6 @@ public class ProcessorFactory : IProcessorFactory
 
         IProcessorBuilder processorBuilder = (IProcessorBuilder)Activator.CreateInstance(builder);
 
-        return processorBuilder.Build();
+        return processorBuilder.Build(_serviceLocator);
     }
 }
