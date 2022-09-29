@@ -5,5 +5,4 @@ namespace rps_server.Services.MatchMake;
 
 public interface IMatchMakeService : IService
 {
-    IMatchMakeResponse GetMatchMakeResponse(int gameType, string connectionId);
 }

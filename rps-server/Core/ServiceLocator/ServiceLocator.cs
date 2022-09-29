@@ -2,13 +2,14 @@
 
 public class ServiceLocator : IServiceLocator
 {
+    private Dictionary<Type, IService> _allService = new Dictionary<Type, IService>();
     public T Get<T>() where T : IService
     {
-        throw new NotImplementedException();
+        return (T)_allService[typeof(T)];
     }
 
     public void Add<T>(T service) where T : IService
     {
-        throw new NotImplementedException();
+        _allService.Add(typeof(T), service);
     }
 }
