@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using rps_server.Core.Model;
 using rps_server.DTO.Request.MatchMake;
 using rps_server.DTO.Response.MatchMake;
 using rps_server.DTO.Response.Model;
@@ -17,7 +18,14 @@ public class MatchMakeProcessor : IMatchMakeProcessor
     
     public IMatchMakeResponse Process(HubCallerContext context, IClientProxy caller, IMatchMakeRequest data)
     {
-        var players = new List<IPlayer> { new Player("enes", "asd"), new Player("bot1", "bot1") };
-        return new MatchMakeResponse(0, "test", players);
+        IGame game = _matchMakeService.GetMatch(context.ConnectionId, 0);
+        var players = new List<IPlayer>();
+        
+        foreach (var val in game.Players)
+        {
+            players.Add(val.Value);
+        }
+        
+        return new MatchMakeResponse(0, game.GameId, players);
     }
 }

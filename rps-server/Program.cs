@@ -16,8 +16,8 @@ IClientRepository clientRepository = new ClientRepository(logging);
 IGameRepository gameRepository = new GameRepository(logging);
 
 IClientService clientService = new ClientService(logging, clientRepository);
-IMatchMakeService matchMakeService = new MatchMakeService();
 IGameService gameService = new GameService(logging, gameRepository);
+IMatchMakeService matchMakeService = new MatchMakeService(logging, gameService, clientService);
 
 serviceLocator.Add<IClientService>(clientService);
 serviceLocator.Add<IMatchMakeService>(matchMakeService);

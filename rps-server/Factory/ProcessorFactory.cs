@@ -21,10 +21,10 @@ public class ProcessorFactory : IProcessorFactory
     private readonly Dictionary<Type, Type> _allBuilders = new Dictionary<Type, Type>
     {
         { typeof(IAuthProcessor), typeof(AuthProcessorBuilder) },
-        { typeof(IDisconnectProcessor), typeof(DisconnectProcessor) },
-        { typeof(IMatchMakeProcessor), typeof(MatchMakeProcessor) },
-        { typeof(IMoveProcessor), typeof(MoveProcessor) },
-        { typeof(IResultProcessor), typeof(ResultProcessor) }
+        { typeof(IDisconnectProcessor), typeof(DisconnectProcessorBuilder) },
+        { typeof(IMatchMakeProcessor), typeof(MatchMakeProcessorBuilder) },
+        { typeof(IMoveProcessor), typeof(MoveProcessorBuilder) },
+        { typeof(IResultProcessor), typeof(ResultProcessorBuilder) }
     };
 
     public IProcessor Produce<TProcessor>() where TProcessor : IProcessor
