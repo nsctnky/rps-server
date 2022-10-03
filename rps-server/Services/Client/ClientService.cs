@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using rps_server.Core.Model;
 using rps_server.Repository.Client;
 using ILogger = rps_server.Core.Logger.ILogger;
 
@@ -28,5 +29,15 @@ public class ClientService : IClientService
     public void RemoveClientByUid(string uid)
     {
         _clientRepository.RemoveClientByUid(uid);
+    }
+
+    public IClient GetByUid(string uid)
+    {
+        return _clientRepository.GetClientByUid(uid);
+    }
+
+    public IClient GetByConnection(string connectionId)
+    {
+        return _clientRepository.GetClientByConnId(connectionId);
     }
 }

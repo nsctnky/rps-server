@@ -28,7 +28,7 @@ IProcessorFactory processorFactory = new ProcessorFactory(serviceLocator);
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
 
-IHubLayer ImplementationFactory(IServiceProvider _) => new HubLayer(logging, processorFactory);
+IHubLayer ImplementationFactory(IServiceProvider _) => new HubLayer(logging, processorFactory, clientService);
 
 builder.Services.AddTransient<IHubLayer>(ImplementationFactory);
 builder.Services.AddSingleton<ILogger>(logging);

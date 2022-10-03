@@ -22,7 +22,7 @@ public interface IProcessorRequestOnly<TRequest> : IProcessor
 public interface IProcessorResponseOnly<TResponse> : IProcessor
     where TResponse : IResponse
 {
-    
+    TResponse Process(HubCallerContext context, IClientProxy caller);
 }
 
 public interface IProcessor<out TResponse, in TRequest> : IProcessor

@@ -3,6 +3,7 @@ using rps_server.Factory.Builder;
 using rps_server.Processors;
 using rps_server.Processors.Auth;
 using rps_server.Processors.Disconnect;
+using rps_server.Processors.JoinGame;
 using rps_server.Processors.MatchMake;
 using rps_server.Processors.Move;
 using rps_server.Processors.Result;
@@ -24,7 +25,8 @@ public class ProcessorFactory : IProcessorFactory
         { typeof(IDisconnectProcessor), typeof(DisconnectProcessorBuilder) },
         { typeof(IMatchMakeProcessor), typeof(MatchMakeProcessorBuilder) },
         { typeof(IMoveProcessor), typeof(MoveProcessorBuilder) },
-        { typeof(IResultProcessor), typeof(ResultProcessorBuilder) }
+        { typeof(IResultProcessor), typeof(ResultProcessorBuilder) },
+        { typeof(IJoinGameProcessor), typeof(JoinGameProcessorBuilder) }
     };
 
     public IProcessor Produce<TProcessor>() where TProcessor : IProcessor
