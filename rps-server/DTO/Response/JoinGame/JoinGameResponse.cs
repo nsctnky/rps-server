@@ -10,8 +10,10 @@ public class JoinGameResponse : IJoinGameResponse
     public string GameId { get; }
     public IList<IPlayer> Players { get; }
 
-    public JoinGameResponse(string gameId, IEnumerable<IPlayer> players)
+    public JoinGameResponse(int error, string gameId, IEnumerable<IPlayer> players)
     {
+        Command = "join";
+        Error = error;
         GameId = gameId;
         Players = new List<IPlayer>();
         

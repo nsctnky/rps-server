@@ -16,7 +16,7 @@ public class AuthProcessor : IAuthProcessor
     
     public IAuthResponse Process(HubCallerContext context, IClientProxy caller, IAuthRequest data)
     {
-        _clientService.AddClient(context.ConnectionId, data.UserId, caller);
+        _clientService.AddClient(context.ConnectionId, data.UserId, data.Name, caller);
         return new AuthResponse(0, data.Name, data.UserId);
     }
 }

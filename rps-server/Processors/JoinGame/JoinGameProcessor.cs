@@ -27,9 +27,9 @@ public class JoinGameProcessor : IJoinGameProcessor
         
         foreach (var val in game.Players)
         {
-            players.Add(val.Value);
+            players.Add(new Player(val.Value.Name, val.Value.UserId));
         }
         
-        return new JoinGameResponse(game.GameId, players);
+        return new JoinGameResponse(0, game.GameId, players);
     }
 }

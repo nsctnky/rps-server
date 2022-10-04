@@ -16,7 +16,7 @@ public class ResultProcessor : IResultProcessor
     
     public IResultResponse Process(HubCallerContext context, IClientProxy caller, IResultRequest data)
     {
-        return new ResultResponse(0, 0, new List<IPlayerResult>());
+        return _gameService.GetResultResponse();
     }
 
     public List<IClientProxy> Clients { get; }

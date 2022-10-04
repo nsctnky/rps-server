@@ -15,10 +15,10 @@ public class ClientRepository : IClientRepository
         _logger = logger;
     }
 
-    public void AddClient(string connectionId, string uid, IClientProxy caller)
+    public void AddClient(string connectionId, string uid, string name, IClientProxy caller)
     {
-        _allClientsByUid.Add(uid, new Core.Model.Client(connectionId, uid, caller));
-        _allClientsByConnId.Add(connectionId, new Core.Model.Client(connectionId, uid, caller));
+        _allClientsByUid.Add(uid, new Core.Model.Client(connectionId, uid, name, caller));
+        _allClientsByConnId.Add(connectionId, new Core.Model.Client(connectionId, uid, name, caller));
     }
 
     public void RemoveClientByUid(string uid)

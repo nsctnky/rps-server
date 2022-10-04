@@ -10,6 +10,12 @@ namespace rps_server.Services.Game;
 
 public class GameService : IGameService
 {
+    private readonly IGameRepository _gameRepository;
+    private ITwoKeyDictionary<string, string, IClient> _allPlayers = new TwoKeyDictionary();
+    private Dictionary<string, MoveType> _playersMove = new();
+    public string GameId { get; private set; }
+    private IResultCalculator _resultCalculator;
+    
     public bool IsGameFinished()
     {
         return true;
@@ -26,17 +32,14 @@ public class GameService : IGameService
         return new ResultResponse(0, 1, players);
     }
 
-    private ITwoKeyDictionary<string, string, IClient> _allPlayers = new TwoKeyDictionary();
-    private Dictionary<string, MoveType> _playersMove = new();
-
     public bool IsFinished
     {
         get { return _playersMove.Count == 2; }
     }
-
-    public string GameId { get; private set; }
-    private IResultCalculator _resultCalculator;
-
+    // Her game içinde client'ları ve game state'leri tutsun.
+    // Game repository bu gameleri ve Dictionary<gameId, Client> şeklinde bir collection olsun
+    // game service ilgili game'i stateleri değiştirsin.
+    // two key dictionary'i game repository'e taşınsın.
     public void SetMovement(string uid, MoveType movement)
     {
         if (_playersMove.ContainsKey(uid))
@@ -64,6 +67,7 @@ public class GameService : IGameService
     public GameService(ILogger logger, IGameRepository gameRepository)
     {
         _resultCalculator = new ResultCalculator();
+        _gameRepository = gameRepository;
     }
 
     public GameService(string gameId, string player1Id, IClient client1, string player2Id, IClient client2)

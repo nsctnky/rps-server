@@ -1,11 +1,11 @@
-﻿using rps_server.Services.Game;
+﻿using rps_server.Core.Model;
 using ILogger = rps_server.Core.Logger.ILogger;
 
 namespace rps_server.Repository.Game;
 
 public class GameRepository : IGameRepository
 {
-    private Dictionary<string, IGameService> _allGames = new Dictionary<string, IGameService>();
+    private Dictionary<string, IGame> _allGames = new Dictionary<string, IGame>();
 
     private readonly ILogger _logger;
 
@@ -14,14 +14,14 @@ public class GameRepository : IGameRepository
         _logger = logger;
     }
 
-    public void AddGame(string gameId, IGameService game)
+    public void AddGame(string gameId, IGame game)
     {
         _allGames.Add(gameId, game);
     }
 
-    public bool TryGetGameById(string gameId, out IGameService? game)
+    public bool TryGetGameById(string gameId, out IGame? game)
     {
-        if (!_allGames.TryGetValue(gameId, out IGameService? value))
+        if (!_allGames.TryGetValue(gameId, out IGame? value))
         {
             game = null;
             return false;
@@ -29,5 +29,10 @@ public class GameRepository : IGameRepository
 
         game = value;
         return true;
+    }
+
+    public IGame GetGameById(string gameId)
+    {
+        return null;
     }
 }

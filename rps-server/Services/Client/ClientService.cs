@@ -16,9 +16,9 @@ public class ClientService : IClientService
         _logger = logger;
     }
 
-    public void AddClient(string connectionId, string uid, IClientProxy client)
+    public void AddClient(string connectionId, string uid, string name, IClientProxy client)
     {
-        _clientRepository.AddClient(connectionId, uid, client);
+        _clientRepository.AddClient(connectionId, uid, name, client);
     }
 
     public void RemoveClientByConnection(string connectionId)

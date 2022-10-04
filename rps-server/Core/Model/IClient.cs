@@ -6,5 +6,6 @@ public interface IClient
 {
     public string ConnectionId { get; }
     public string UserId { get; }
+    public string Name { get; }
     public IClientProxy Caller { get; }
 }

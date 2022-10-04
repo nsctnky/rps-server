@@ -5,7 +5,7 @@ namespace rps_server.Repository.Client;
 
 public interface IClientRepository
 {
-    void AddClient(string connectionId, string uid, IClientProxy caller);
+    void AddClient(string connectionId, string uid, string name, IClientProxy caller);
     void RemoveClientByUid(string uid);
     void RemoveClientByConnId(string connectionId);
     IClient GetClientByUid(string uid);
