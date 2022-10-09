@@ -11,23 +11,25 @@ public class JoinGameProcessor : IJoinGameProcessor
 {
     private readonly IMatchMakeService _matchMakeService;
     
+    public bool IsGameReady { get; private set; }
+    
     public JoinGameProcessor(IMatchMakeService matchMakeService)
     {
         _matchMakeService = matchMakeService;
     }
     
-    public void Process(HubCallerContext context, IClientProxy caller)
-    {
-    }
-
     public IJoinGameResponse Process(HubCallerContext context, IClientProxy caller, IJoinGameRequest data)
     {
         IGame game = _matchMakeService.GetMatch(context.ConnectionId, 0);
-        var players = new List<IPlayer>();
+
+        if (!game.isFull)
+            return new JoinGameResponse(-1, "", null);
         
-        foreach (var val in game.Players)
+        var players = new List<IPlayerDTO>();
+        
+        foreach (var val in game.GetPlayers())
         {
-            players.Add(new Player(val.Value.Name, val.Value.UserId));
+            players.Add(new PlayerDto(val.Name, val.UserId));
         }
         
         return new JoinGameResponse(0, game.GameId, players);

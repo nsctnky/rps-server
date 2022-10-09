@@ -2,4 +2,6 @@
 
 public interface IMoveRequest : IRequest
 {
+    string GameId { get; }
+    int Move { get; }
 }

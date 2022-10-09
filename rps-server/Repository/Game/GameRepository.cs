@@ -33,6 +33,6 @@ public class GameRepository : IGameRepository
 
     public IGame GetGameById(string gameId)
     {
-        return null;
+        return _allGames[gameId];
     }
 }

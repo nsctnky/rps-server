@@ -6,4 +6,5 @@ namespace rps_server.Services.MatchMake;
 public interface IMatchMakeService : IService
 {
     IGame GetMatch(string connectionId, int gameType);
+    void AddClientToWaiting(string connectionId);
 }

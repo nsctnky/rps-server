@@ -23,10 +23,10 @@ public class GameService : IGameService
 
     public ResultResponse GetResultResponse()
     {
-        var players = new List<IPlayerResult>
+        var players = new List<IPlayerDtoResult>
         {
-            new PlayerResult("enes", "asd", 1),
-            new PlayerResult("bot1", "bot1", 0)
+            new PlayerDtoResult("enes", "asd", 1),
+            new PlayerDtoResult("bot1", "bot1", 0)
         };
 
         return new ResultResponse(0, 1, players);
@@ -68,14 +68,6 @@ public class GameService : IGameService
     {
         _resultCalculator = new ResultCalculator();
         _gameRepository = gameRepository;
-    }
-
-    public GameService(string gameId, string player1Id, IClient client1, string player2Id, IClient client2)
-    {
-        GameId = gameId;
-        _resultCalculator = new ResultCalculator();
-        _allPlayers.TryAdd(player1Id, client1.ConnectionId, client1);
-        _allPlayers.TryAdd(player2Id, client2.ConnectionId, client2);
     }
 
     public IClient? GetClientById(string uid)

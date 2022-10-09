@@ -3,8 +3,9 @@
 public interface IGame
 {
     string GameId { get; }
-    IDictionary<string, IClient> Players { get; }
-
+    bool isFull { get; }
     void SetGameId(string gameId);
     void SetPlayer(string connectionId, string uid, string name);
+    void SetPlayer(IClient client);
+    IEnumerable<IClient> GetPlayers();
 }

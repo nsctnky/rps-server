@@ -8,5 +8,5 @@ public interface IJoinGameResponse :  IResponse
     [JsonProperty("gameId")]
     string GameId { get; }
     [JsonProperty("players")]
-    IList<IPlayer> Players { get; }
+    IList<IPlayerDTO> Players { get; }
 }

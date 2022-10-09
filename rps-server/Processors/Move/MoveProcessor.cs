@@ -15,6 +15,7 @@ public class MoveProcessor : IMoveProcessor
     
     public IMoveResponse Process(HubCallerContext context, IClientProxy caller, IMoveRequest data)
     {
+        // get game from game service
         return new MoveResponse(0, 0);
     }
 

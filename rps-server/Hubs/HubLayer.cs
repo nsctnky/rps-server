@@ -54,6 +54,9 @@ public class HubLayer : IHubLayer
         IJoinGameProcessor joinGameProcessor = (IJoinGameProcessor)_processorFactory.Produce<IJoinGameProcessor>();
         IJoinGameResponse joinGameResponse = joinGameProcessor.Process(context, clients.Caller, new JoinGameRequest());
         
+        if(!joinGameProcessor.IsGameReady)
+            return;
+        
         foreach (var player in joinGameResponse.Players)
         {
             IClient client = _clientService.GetByUid(player.UserId);
@@ -64,7 +67,7 @@ public class HubLayer : IHubLayer
     public async Task OnMove(HubCallerContext context, IHubCallerClients clients, string gameId, int move)
     {
         IMoveProcessor processor = (IMoveProcessor)_processorFactory.Produce<IMoveProcessor>();
-        IMoveResponse response = processor.Process(context, clients.Caller, new MoveRequest());
+        IMoveResponse response = processor.Process(context, clients.Caller, new MoveRequest(gameId, move));
         await clients.Caller.SendAsync(MessageReceived, response.ToJson());
 
         if (!processor.IsGameFinished)
