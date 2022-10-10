@@ -6,4 +6,5 @@ namespace rps_server.Processors.Move;
 public interface IMoveProcessor : IProcessor<IMoveResponse, IMoveRequest>
 {
     bool IsGameFinished { get; }
+    string GameId { get; }
 }

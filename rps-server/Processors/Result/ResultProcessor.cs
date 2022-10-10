@@ -16,7 +16,12 @@ public class ResultProcessor : IResultProcessor
     
     public IResultResponse Process(HubCallerContext context, IClientProxy caller, IResultRequest data)
     {
-        return _gameService.GetResultResponse();
+        var dict = _gameService.GetResultResponse(data.GameId);
+        var list = new List<PlayerDtoResult>();
+        foreach (var pair in dict)
+            list.Add(new PlayerDtoResult(pair.Key.Name, pair.Key.UserId, (int)pair.Value.Key, (int)pair.Value.Value));
+
+        return new ResultResponse(0, list);
     }
 
     public List<IClientProxy> Clients { get; }

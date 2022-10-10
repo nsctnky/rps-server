@@ -2,5 +2,10 @@
 
 public class ResultRequest : IResultRequest
 {
-    
+    public string GameId { get; }
+
+    public ResultRequest(string gameId)
+    {
+        GameId = gameId;
+    }
 }

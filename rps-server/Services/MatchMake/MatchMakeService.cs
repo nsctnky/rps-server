@@ -9,6 +9,7 @@ public class MatchMakeService : IMatchMakeService
 {
     private readonly IGameService _gameService;
     private readonly IClientService _clientService;
+    private readonly ILogger? _logger;
 
     private readonly Queue<IClient> _waitingPlayers = new();
     private readonly Queue<IGame> _waitingGames = new();
@@ -17,6 +18,7 @@ public class MatchMakeService : IMatchMakeService
     {
         _gameService = gameService;
         _clientService = clientService;
+        _logger = logger;
     }
 
     public IGame GetMatch(string connectionId, int gameType)

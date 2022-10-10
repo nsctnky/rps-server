@@ -1,4 +1,4 @@
-﻿namespace rps_server.DTO.Response.Model;
+﻿namespace rps_server.DTO.Model;
 
 [Serializable]
 public class PlayerDto : IPlayerDTO

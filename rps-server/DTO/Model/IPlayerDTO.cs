@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace rps_server.DTO.Response.Model;
+namespace rps_server.DTO.Model;
 
 public interface IPlayerDTO
 {

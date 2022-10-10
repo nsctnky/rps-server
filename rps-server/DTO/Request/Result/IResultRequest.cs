@@ -2,5 +2,5 @@
 
 public interface IResultRequest : IRequest
 {
-    
+    string GameId { get; }
 }

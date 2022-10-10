@@ -74,7 +74,7 @@ public class HubLayer : IHubLayer
             return;
 
         IResultProcessor resultProcessor = (IResultProcessor)_processorFactory.Produce<IResultProcessor>();
-        IResultResponse resultResponse = resultProcessor.Process(context, clients.Caller, new ResultRequest());
+        IResultResponse resultResponse = resultProcessor.Process(context, clients.Caller, new ResultRequest(processor.GameId));
         foreach (var cl in resultProcessor.Clients)
         {
             await cl.SendAsync(MessageReceived, resultResponse.ToJson());

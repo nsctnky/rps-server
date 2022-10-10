@@ -1,4 +1,5 @@
-﻿using rps_server.Core.Model;
+﻿using System.Collections;
+using rps_server.Core.Model;
 
 namespace rps_server.Core.Utils;
 
@@ -60,10 +61,29 @@ public class TwoKeyDictionary : ITwoKeyDictionary<string, string, IClient>
         return true;
     }
 
+    public int Count
+    {
+        get { return _firstKeys.Count; }
+    }
+
     public void Dispose()
     {
         _firstKeys.Clear();
         _secondKeys.Clear();
         _values.Clear();
+    }
+
+    public IEnumerator<TwoKeyValuePair<string, string, IClient>> GetEnumerator()
+    {
+        var list = new List<TwoKeyValuePair<string, string, IClient>>();
+        for (int i = 0; i < _firstKeys.Count; i++)
+            list.Add(new TwoKeyValuePair<string, string, IClient>(_firstKeys[i], _secondKeys[i], _values[i]));
+
+        return list.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

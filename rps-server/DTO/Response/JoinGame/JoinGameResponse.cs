@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using rps_server.DTO.Response.Model;
+using rps_server.DTO.Model;
 
 namespace rps_server.DTO.Response.JoinGame;
 
