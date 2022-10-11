@@ -5,6 +5,8 @@ namespace rps_server.Services.Game;
 
 public interface IGameService : IService
 {
+    void AddGame(IGame game);
+    void ClearGame(string gameId);
     bool IsGameFinished(string gameId);
     void SetMove(string connectionId, string gameId, MoveType move);
     Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResultResponse(string gameId);

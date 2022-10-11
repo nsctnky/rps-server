@@ -8,6 +8,11 @@ public class Client : IClient
     public string UserId { get; }
     public string Name { get; }
     public IClientProxy Caller { get; }
+    public bool IsConnected { get; private set; }
+    public void Disconnect()
+    {
+        IsConnected = false;
+    }
 
     public Client(string connectionId, string userId, string name, IClientProxy caller)
     {
@@ -15,5 +20,6 @@ public class Client : IClient
         UserId = userId;
         Caller = caller;
         Name = name;
+        IsConnected = true;
     }
 }

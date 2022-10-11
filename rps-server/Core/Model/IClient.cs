@@ -8,4 +8,6 @@ public interface IClient
     public string UserId { get; }
     public string Name { get; }
     public IClientProxy Caller { get; }
+    public bool IsConnected { get; }
+    void Disconnect();
 }

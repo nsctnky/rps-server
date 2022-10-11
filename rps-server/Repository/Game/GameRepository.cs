@@ -14,9 +14,9 @@ public class GameRepository : IGameRepository
         _logger = logger;
     }
 
-    public void AddGame(string gameId, IGame game)
+    public void AddGame(IGame game)
     {
-        _allGames.Add(gameId, game);
+        _allGames.Add(game.GameId, game);
     }
 
     public bool TryGetGameById(string gameId, out IGame? game)
@@ -29,6 +29,11 @@ public class GameRepository : IGameRepository
 
         game = value;
         return true;
+    }
+
+    public void RemoveGame(string gameId)
+    {
+        _allGames.Remove(gameId);
     }
 
     public IGame GetGameById(string gameId)

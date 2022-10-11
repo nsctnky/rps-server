@@ -63,4 +63,27 @@ public class Game : IGame
             { p2Data, new KeyValuePair<MoveType, GameResult>(p2Move, p2Res) }
         };
     }
+
+    public bool IsAnyPlayerDisconnected()
+    {
+        bool isAny = false;
+        var count = _allPlayers.Count;
+        for (int i = 0; i < count; i++)
+        {
+            var player = _allPlayers[i];
+            if(!player.Value.IsConnected)
+            {
+                isAny = true;
+                _allPlayers.RemoveAt(i);
+            }
+        }
+
+        return isAny;
+    }
+
+    public void Dispose()
+    {
+        _allPlayers.Dispose();
+        _playersMove.Clear();
+    }
 }

@@ -9,6 +9,14 @@ public class TwoKeyDictionary : ITwoKeyDictionary<string, string, IClient>
     private List<string> _secondKeys = new List<string>();
     private List<IClient> _values = new List<IClient>();
 
+    public TwoKeyValuePair<string, string, IClient> this[int index]
+    {
+        get
+        {
+            return new TwoKeyValuePair<string, string, IClient>(_firstKeys[index], _secondKeys[index], _values[index]);
+        }
+    }
+    
     public bool TryAdd(string key1, string key2, IClient? value)
     {
         if (!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(key2) || value == null)
@@ -31,6 +39,13 @@ public class TwoKeyDictionary : ITwoKeyDictionary<string, string, IClient>
     public void RemoveByKey2(string key2)
     {
         throw new NotImplementedException();
+    }
+
+    public void RemoveAt(int index)
+    {
+        _firstKeys.RemoveAt(index);
+        _secondKeys.RemoveAt(index);
+        _values.RemoveAt(index);
     }
 
     public bool TryGetByKey1(string key1, out IClient? value)

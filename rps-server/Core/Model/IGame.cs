@@ -2,7 +2,7 @@
 
 namespace rps_server.Core.Model;
 
-public interface IGame
+public interface IGame : IDisposable
 {
     string GameId { get; }
     bool IsFull { get; }
@@ -12,4 +12,5 @@ public interface IGame
     void SetMove(string connectionId, MoveType move);
     IEnumerable<IClient> GetPlayers();
     public Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResult();
+    bool IsAnyPlayerDisconnected();
 }

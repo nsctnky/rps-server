@@ -21,6 +21,7 @@ public class ResultProcessor : IResultProcessor
         foreach (var pair in dict)
             list.Add(new PlayerDtoResult(pair.Key.Name, pair.Key.UserId, (int)pair.Value.Key, (int)pair.Value.Value));
 
+        _gameService.ClearGame(data.GameId);
         return new ResultResponse(0, list);
     }
 
