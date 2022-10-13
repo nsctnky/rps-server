@@ -18,12 +18,12 @@ IGameRepository gameRepository = new GameRepository(logging);
 IClientService clientService = new ClientService(logging, clientRepository);
 IGameService gameService = new GameService(logging, gameRepository);
 IMatchMakeService matchMakeService = new MatchMakeService(logging, gameService, clientService);
+IProcessorFactory processorFactory = new ProcessorFactory(serviceLocator);
 
 serviceLocator.Add<IClientService>(clientService);
 serviceLocator.Add<IMatchMakeService>(matchMakeService);
 serviceLocator.Add<IGameService>(gameService);
 
-IProcessorFactory processorFactory = new ProcessorFactory(serviceLocator);
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();

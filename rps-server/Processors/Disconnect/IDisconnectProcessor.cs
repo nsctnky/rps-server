@@ -2,5 +2,6 @@
 
 public interface IDisconnectProcessor : IProcessorBlank
 {
-    
+    bool HasEndGameResult { get; }
+    string GameId { get; }
 }

@@ -85,7 +85,17 @@ public class HubLayer : IHubLayer
     {
         _logging.Info($"{context.ConnectionId} has disconnected.");
         IDisconnectProcessor processor = (IDisconnectProcessor)_processorFactory.Produce<IDisconnectProcessor>();
-        processor.Process(context, clients.Caller);
+        await processor.Process(context, clients.Caller);
+
+        if (!processor.HasEndGameResult)
+            return;
+        
+        IResultProcessor resultProcessor = (IResultProcessor)_processorFactory.Produce<IResultProcessor>();
+        IResultResponse resultResponse = resultProcessor.Process(context, clients.Caller, new ResultRequest(processor.GameId, true));
+        foreach (var cl in resultProcessor.Clients)
+        {
+            await cl.SendAsync(MessageReceived, resultResponse.ToJson());
+        }
     }
 
     public Task OnConnected(HubCallerContext context, IHubCallerClients clients)

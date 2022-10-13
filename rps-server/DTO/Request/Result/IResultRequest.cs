@@ -3,4 +3,5 @@
 public interface IResultRequest : IRequest
 {
     string GameId { get; }
+    bool IsGameLeft { get; }
 }

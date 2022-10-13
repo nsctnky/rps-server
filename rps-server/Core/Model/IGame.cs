@@ -11,6 +11,6 @@ public interface IGame : IDisposable
     void SetPlayer(IClient client);
     void SetMove(string connectionId, MoveType move);
     IEnumerable<IClient> GetPlayers();
-    public Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResult();
-    bool IsAnyPlayerDisconnected();
+    Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResult();
+    void DisconnectPlayer(string connectionId);
 }

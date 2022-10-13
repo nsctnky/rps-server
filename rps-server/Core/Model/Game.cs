@@ -13,8 +13,9 @@ public class Game : IGame
 
     public bool IsFull
     {
-        get { return _allPlayers.Count == 2; }
+        get { return !IsAnyPlayerDisconnected() && _allPlayers.Count == 2; }
     }
+    
     public bool IsGameFinished
     {
         get { return _playersMove.Count == 2; }
@@ -27,6 +28,7 @@ public class Game : IGame
     
     public void SetPlayer(IClient client)
     {
+        IsAnyPlayerDisconnected();
         _allPlayers.TryAdd(client.ConnectionId, client.UserId, client);
     }
 
@@ -46,25 +48,38 @@ public class Game : IGame
 
     public Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResult()
     {
+        if (_allPlayers.Count == 1)
+        {
+            var p1 = _allPlayers[0];
+            
+            return new Dictionary<IClient, KeyValuePair<MoveType, GameResult>>
+            {
+                { p1.Value, new KeyValuePair<MoveType, GameResult>(MoveType.None, GameResult.Win) },
+            };
+        }
+        
+        var p1Move = _playersMove.ElementAt(0);
+        var p2Move = _playersMove.ElementAt(1);
+
+        _allPlayers.TryGetByKey1(p1Move.Key, out var p1Data);
+        _allPlayers.TryGetByKey1(p2Move.Key, out var p2Data);
+        
         _resultCalculator = new ResultCalculator();
-        var p1 = _playersMove.ElementAt(0);
-        var p2 = _playersMove.ElementAt(1);
-        _resultCalculator.CalculateResult(p1.Value, p2.Value, out var p1Res, out var p2Res);
-
-        _allPlayers.TryGetByKey1(p1.Key, out var p1Data);
-        _allPlayers.TryGetByKey1(p2.Key, out var p2Data);
-
-        var p1Move = _playersMove[p1Data.ConnectionId];
-        var p2Move = _playersMove[p2Data.ConnectionId];
+        _resultCalculator.CalculateResult(p1Move.Value, p2Move.Value, out var p1Res, out var p2Res);
         
         return new Dictionary<IClient, KeyValuePair<MoveType, GameResult>>
         {
-            { p1Data, new KeyValuePair<MoveType, GameResult>(p1Move, p1Res) },
-            { p2Data, new KeyValuePair<MoveType, GameResult>(p2Move, p2Res) }
+            { p1Data, new KeyValuePair<MoveType, GameResult>(p1Move.Value, p1Res) },
+            { p2Data, new KeyValuePair<MoveType, GameResult>(p2Move.Value, p2Res) }
         };
     }
 
-    public bool IsAnyPlayerDisconnected()
+    public void DisconnectPlayer(string connectionId)
+    {
+        _allPlayers.RemoveByKey1(connectionId);
+    }
+
+    private bool IsAnyPlayerDisconnected()
     {
         bool isAny = false;
         var count = _allPlayers.Count;

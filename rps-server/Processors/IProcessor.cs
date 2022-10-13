@@ -10,7 +10,7 @@ public interface IProcessor
 
 public interface IProcessorBlank : IProcessor
 {
-    void Process(HubCallerContext context, IClientProxy caller);
+    Task Process(HubCallerContext context, IClientProxy caller);
 }
 
 public interface IProcessorRequestOnly<TRequest> : IProcessor

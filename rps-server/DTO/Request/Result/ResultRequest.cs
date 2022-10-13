@@ -3,8 +3,9 @@
 public class ResultRequest : IResultRequest
 {
     public string GameId { get; }
+    public bool IsGameLeft { get; }
 
-    public ResultRequest(string gameId)
+    public ResultRequest(string gameId, bool isGameLeft = false)
     {
         GameId = gameId;
     }

@@ -4,10 +4,13 @@ namespace rps_server.Core.Model;
 
 public interface IClient
 {
-    public string ConnectionId { get; }
-    public string UserId { get; }
-    public string Name { get; }
-    public IClientProxy Caller { get; }
-    public bool IsConnected { get; }
+    IGame? CurrentGame { get; }
+    bool IsInGame { get; }
+    string ConnectionId { get; }
+    string UserId { get; }
+    string Name { get; }
+    IClientProxy Caller { get; }
+    bool IsConnected { get; }
     void Disconnect();
+    void SetCurrentGame(IGame? game);
 }
