@@ -23,7 +23,7 @@ public class ClientService : IClientService
 
     public void RemoveClientByConnection(string connectionId)
     {
-        var client = _clientRepository.GetClientByUid(connectionId);
+        var client = _clientRepository.GetClientByConnId(connectionId);
         client.Disconnect();
         _clientRepository.RemoveClientByConnId(connectionId);
     }
