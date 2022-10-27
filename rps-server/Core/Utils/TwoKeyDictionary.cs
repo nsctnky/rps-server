@@ -19,7 +19,7 @@ public class TwoKeyDictionary : ITwoKeyDictionary<string, string, IClient>
     
     public bool TryAdd(string key1, string key2, IClient? value)
     {
-        if (!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(key2) || value == null)
+        if (string.IsNullOrEmpty(key1) || string.IsNullOrEmpty(key2) || value == null)
             return false;
 
         if (_firstKeys.Contains(key1) || _secondKeys.Contains(key2))

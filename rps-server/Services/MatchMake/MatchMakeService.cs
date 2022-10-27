@@ -36,6 +36,7 @@ public class MatchMakeService : IMatchMakeService
             game = new Core.Model.Game();
             game.SetGameId(GetRandomGameId());
             game.SetPlayer(client);
+            _waitingGames.Enqueue(game);
         }
         
         return game;
