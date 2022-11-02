@@ -6,7 +6,7 @@ namespace rps_server.Services.Client;
 
 public interface IClientService : IService
 {
-    void AddClient(string connectionId, string uid, string name, IClientProxy client);
+    void AddClient(HubCallerContext context, string uid, string name, IClientProxy client);
     void RemoveClientByConnection(string connectionId);
     void RemoveClientByUid(string uid);
     IClient GetByUid(string uid);

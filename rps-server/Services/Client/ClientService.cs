@@ -21,6 +21,11 @@ public class ClientService : IClientService
         _clientRepository.AddClient(connectionId, uid, name, client);
     }
 
+    public void AddClient(HubCallerContext context, string uid, string name, IClientProxy client)
+    {
+        _clientRepository.AddClient(context, uid, name, client);
+    }
+
     public void RemoveClientByConnection(string connectionId)
     {
         var client = _clientRepository.GetClientByConnId(connectionId);

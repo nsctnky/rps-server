@@ -77,7 +77,7 @@ public class HubLayer : IHubLayer
         IResultResponse resultResponse = resultProcessor.Process(context, clients.Caller, new ResultRequest(processor.GameId));
         foreach (var cl in resultProcessor.Clients)
         {
-            await cl.SendAsync(MessageReceived, resultResponse.ToJson());
+            await cl.Caller.SendAsync(MessageReceived, resultResponse.ToJson());
         }
     }
 
@@ -94,7 +94,7 @@ public class HubLayer : IHubLayer
         IResultResponse resultResponse = resultProcessor.Process(context, clients.Caller, new ResultRequest(processor.GameId, true));
         foreach (var cl in resultProcessor.Clients)
         {
-            await cl.SendAsync(MessageReceived, resultResponse.ToJson());
+            await cl.Caller.SendAsync(MessageReceived, resultResponse.ToJson());
         }
     }
 

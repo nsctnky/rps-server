@@ -17,8 +17,16 @@ public class ClientRepository : IClientRepository
 
     public void AddClient(string connectionId, string uid, string name, IClientProxy caller)
     {
-        _allClientsByUid.Add(uid, new Core.Model.Client(connectionId, uid, name, caller));
-        _allClientsByConnId.Add(connectionId, new Core.Model.Client(connectionId, uid, name, caller));
+        var client = new Core.Model.Client(connectionId, uid, name, caller);
+        _allClientsByUid.Add(uid, client);
+        _allClientsByConnId.Add(connectionId, client);
+    }
+
+    public void AddClient(HubCallerContext context, string uid, string name, IClientProxy caller)
+    {
+        var client = new Core.Model.Client(context.ConnectionId, uid, name, caller);
+        _allClientsByUid.Add(uid, client);
+        _allClientsByConnId.Add(context.ConnectionId, client);
     }
 
     public void RemoveClientByUid(string uid)
