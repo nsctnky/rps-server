@@ -38,6 +38,11 @@ public class GameService : IGameService
         game.SetMove(connectionId, move);
     }
 
+    public IGame GetGameById(string gameId)
+    {
+        return _gameRepository.GetGameById(gameId);
+    }
+
     public Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResultResponse(string gameId)
     {
         _gameRepository.TryGetGameById(gameId, out IGame game);

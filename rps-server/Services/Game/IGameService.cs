@@ -9,5 +9,6 @@ public interface IGameService : IService
     void ClearGame(string gameId);
     bool IsGameFinished(string gameId);
     void SetMove(string connectionId, string gameId, MoveType move);
+    IGame GetGameById(string gameId);
     Dictionary<IClient, KeyValuePair<MoveType, GameResult>> GetResultResponse(string gameId);
 }
